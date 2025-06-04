@@ -1,0 +1,89 @@
+package com.java.lms.dao;
+
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.java.lms.model.LeaveDetails;
+import com.java.lms.model.LeaveStatus;
+import com.java.lms.model.LeaveType;
+import com.java.lms.util.ConnectionHelper;
+
+public class LeaveDAOImpl implements LeaveDetailsDAO {
+
+	Connection connection;
+	PreparedStatement pst;
+	
+	public int dateDiff(Date startDate, Date endDate) {
+		long ms = endDate.getTime() - startDate.getTime();
+		int diff = (int)(ms/(1000 * 60 * 60 * 24));
+		diff++;
+		return diff;
+	}
+	
+	@Override
+	public String applyLeave(LeaveDetails leaveDetails) throws ClassNotFoundException, SQLException {
+		System.out.println(leaveDetails);
+		connection = ConnectionHelper.getConnection();
+		int diff = dateDiff(leaveDetails.getLeaveStartDate(), leaveDetails.getLeaveEndDate());
+		leaveDetails.setNoOfDays(diff);
+		String cmd = "Insert into LeaveDetails(EmpId,LeaveStartDate,LeaveEndDate,"
+				+ "noOfDays,leaveType,leaveReason) values(?,?,?,?,?,?)";
+		pst = connection.prepareStatement(cmd);
+		pst.setInt(1, leaveDetails.getEmpId());
+		pst.setDate(2, leaveDetails.getLeaveStartDate());
+		pst.setDate(3, leaveDetails.getLeaveEndDate());
+		pst.setInt(4, leaveDetails.getNoOfDays());
+		pst.setString(5, leaveDetails.getLeaveType().toString());
+		pst.setString(6, leaveDetails.getLeaveReason());
+		pst.executeUpdate();
+		cmd = "Update Employee set LeaveAvail = LeaveAvail - ? Where EmpId=?";
+		pst = connection.prepareStatement(cmd);
+		pst.setInt(1, diff);
+		pst.setInt(2, leaveDetails.getEmpId());
+		pst.executeUpdate();
+		return "Leave Applied...";
+	}
+	
+	@Override
+	public List<LeaveDetails> showLeaveHistory(int empId) throws ClassNotFoundException, SQLException {
+	    List<LeaveDetails> leaveList = new ArrayList<>();
+
+	    Connection con = ConnectionHelper.getConnection();
+	    
+	    String sql = "SELECT * FROM LeaveDetails WHERE empId = ?";
+	    
+	    
+	    PreparedStatement pst = con.prepareStatement(sql);
+	    pst.setInt(1, empId);
+	    ResultSet rs = pst.executeQuery();
+
+	    while (rs.next()) {
+	        LeaveDetails leave = new LeaveDetails();
+	        leave.setLeaveId(rs.getInt("leaveId"));
+	        leave.setEmpId(rs.getInt("empId"));
+	        leave.setManagerComments(rs.getString("managerComments"));
+	        leave.setLeaveStartDate (rs.getDate("leaveStartDate"));
+	        
+	        leave.setLeaveEndDate(rs.getDate("leaveEndDate"));
+	        
+	        leave.setLeaveType(LeaveType.valueOf(rs.getString("leaveType")));
+	        
+	        leave.setLeaveStatus(LeaveStatus.valueOf(rs.getString("leaveStatus")));
+	        
+	        leave.setLeaveReason(rs.getString("leaveReason"));
+
+	        leaveList.add(leave);
+	    }
+	    return leaveList;
+	}
+
+
+}
+
+
+

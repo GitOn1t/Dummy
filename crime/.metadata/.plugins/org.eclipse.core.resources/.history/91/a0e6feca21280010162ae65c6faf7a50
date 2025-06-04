@@ -1,0 +1,28 @@
+package com.hexaware.cars.dao;
+
+import com.hexaware.cars.entity.Incident;
+import com.hexaware.cars.entity.Report;
+import com.hexaware.cars.exception.IncidentNumberNotFoundException;
+
+import java.util.Collection;
+
+public interface ICrimeAnalysisService {
+
+    // Create a new incident
+    boolean createIncident(Incident incident);
+
+    // Update the status of an incident
+    boolean updateIncidentStatus(int incidentId, String status) throws IncidentNumberNotFoundException;
+
+    // Get a list of incidents within a date range
+    Collection<Incident> getIncidentsInDateRange(String startDate, String endDate);
+
+    // Search for incidents based on type
+    Collection<Incident> searchIncidents(String incidentType);
+
+    // Generate incident report
+    Report generateIncidentReport(Incident incident);
+
+    // Optional: Fetch single incident (for report or validation)
+    Incident getIncidentById(int incidentId) throws IncidentNumberNotFoundException;
+}

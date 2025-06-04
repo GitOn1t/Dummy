@@ -1,0 +1,5 @@
+package Library.Management.model;
+
+public class BookModel {
+
+}

@@ -1,0 +1,7 @@
+INDEX VERSION 1.4+C:\javatraining\crime\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
+3068993611.index
+4241236302.index
+2854498563.index
+3000412287.index
+2403473375.index
+1747219699.index

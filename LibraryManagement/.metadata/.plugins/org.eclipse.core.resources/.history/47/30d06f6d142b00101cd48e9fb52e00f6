@@ -1,0 +1,5 @@
+package Library.Management.dao;
+
+public interface LibraryDao {
+
+}

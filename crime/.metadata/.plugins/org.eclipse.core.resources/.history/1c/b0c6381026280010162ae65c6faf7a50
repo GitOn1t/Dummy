@@ -1,0 +1,26 @@
+package com.hexaware.cars.dao;
+
+import com.hexaware.cars.entity.Incident;
+import com.hexaware.cars.entity.Report;
+
+import java.sql.SQLException;
+import java.util.Collection;
+
+public interface ICrimeAnalysisService {
+
+    // Create a new incident
+    boolean createIncident(Incident incident) throws SQLException;
+
+    // Update the status of an incident
+    boolean updateIncidentStatus(String status, int incidentID) throws SQLException;
+
+    // Get a list of incidents within a date range
+    Collection<Incident> getIncidentsInDateRange(String startDate, String endDate) throws SQLException;
+
+    // Search for incidents based on various criteria (like IncidentType)
+    Collection<Incident> searchIncidents(String incidentType) throws SQLException;
+
+    // Generate incident reports
+    Report generateIncidentReport(Incident incident) throws SQLException;
+}
+

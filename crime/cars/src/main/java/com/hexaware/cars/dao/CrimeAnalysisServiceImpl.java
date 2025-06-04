@@ -1,0 +1,147 @@
+package com.hexaware.cars.dao;
+
+import com.hexaware.cars.entity.Incident;
+import com.hexaware.cars.entity.Report;
+import com.hexaware.cars.util.DBConnUtil;
+import com.hexaware.cars.exception.IncidentNumberNotFoundException;
+
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.Collection;
+
+public class CrimeAnalysisServiceImpl implements ICrimeAnalysisService {
+
+    // JDBC connection using DBConnUtil
+    private static Connection connection = DBConnUtil.getConnection();
+
+    // Create a new incident
+    @Override
+    public boolean createIncident(Incident incident) {
+        String query = "INSERT INTO Incidents (IncidentType, IncidentDate, Location, Description, Status, VictimID, SuspectID, OfficerID) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, incident.getIncidentType());
+            preparedStatement.setDate(2, Date.valueOf(incident.getIncidentDate()));
+            preparedStatement.setString(3, incident.getLocation());
+            preparedStatement.setString(4, incident.getDescription());
+            preparedStatement.setString(5, incident.getStatus());
+            preparedStatement.setInt(6, incident.getVictimID());
+            preparedStatement.setInt(7, incident.getSuspectID());
+            preparedStatement.setInt(8, incident.getOfficerID());
+
+            int result = preparedStatement.executeUpdate();
+            return result > 0; // Return true if the insertion was successful
+        } catch (SQLException e) {
+            e.printStackTrace(); // Print the stack trace for debugging
+            return false; // Return false if an error occurred
+        }
+    }
+
+    // Update the status of an incident
+    @Override
+    public boolean updateIncidentStatus(String status, int incidentID) {
+        String query = "UPDATE Incidents SET Status = ? WHERE IncidentID = ?";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, status);
+            preparedStatement.setInt(2, incidentID);
+
+            int result = preparedStatement.executeUpdate();
+            return result > 0; // Return true if the status was updated
+        } catch (SQLException e) {
+            e.printStackTrace(); // Print the stack trace for debugging
+            return false; // Return false if an error occurred
+        }
+    }
+
+    // Get a list of incidents within a date range
+    @Override
+    public Collection<Incident> getIncidentsInDateRange(String startDate, String endDate) {
+        String query = "SELECT * FROM Incidents WHERE IncidentDate BETWEEN ? AND ?";
+        Collection<Incident> incidents = new ArrayList<>();
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, startDate);
+            preparedStatement.setString(2, endDate);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Incident incident = new Incident(
+                        resultSet.getInt("IncidentID"),
+                        resultSet.getString("IncidentType"),
+                        resultSet.getDate("IncidentDate").toString(),
+                        resultSet.getString("Location"),
+                        resultSet.getString("Description"),
+                        resultSet.getString("Status"),
+                        resultSet.getInt("VictimID"),
+                        resultSet.getInt("SuspectID"),
+                        resultSet.getInt("OfficerID")
+                );
+                incidents.add(incident);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Print the stack trace for debugging
+        }
+        return incidents;
+    }
+
+    // Search for incidents based on various criteria
+    @Override
+    public Collection<Incident> searchIncidents(String incidentType) {
+        String query = "SELECT * FROM Incidents WHERE IncidentType = ?";
+        Collection<Incident> incidents = new ArrayList<>();
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, incidentType);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Incident incident = new Incident(
+                        resultSet.getInt("IncidentID"),
+                        resultSet.getString("IncidentType"),
+                        resultSet.getDate("IncidentDate").toString(),
+                        resultSet.getString("Location"),
+                        resultSet.getString("Description"),
+                        resultSet.getString("Status"),
+                        resultSet.getInt("VictimID"),
+                        resultSet.getInt("SuspectID"),
+                        resultSet.getInt("OfficerID")
+                );
+                incidents.add(incident);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Print the stack trace for debugging
+        }
+        return incidents;
+    }
+
+    // Generate incident reports
+    @Override
+    public Report generateIncidentReport(Incident incident) {
+        String query = "INSERT INTO Reports (IncidentID, ReportingOfficer, ReportDate, ReportDetails, Status) " +
+                "VALUES (?, ?, ?, ?, ?)";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+            preparedStatement.setInt(1, incident.getIncidentID());
+            preparedStatement.setInt(2, incident.getOfficerID());
+            preparedStatement.setDate(3, Date.valueOf(java.time.LocalDate.now()));
+            preparedStatement.setString(4, "Incident report details here.");
+            preparedStatement.setString(5, "Draft");
+
+            int result = preparedStatement.executeUpdate();
+            if (result > 0) {
+                ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    int reportID = generatedKeys.getInt(1);
+                    return new Report(reportID, incident.getIncidentID(), incident.getOfficerID(),
+                            java.time.LocalDate.now().toString(), "Incident report details here.", "Draft");
+
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Print the stack trace for debugging
+        }
+        return null;
+    }
+}

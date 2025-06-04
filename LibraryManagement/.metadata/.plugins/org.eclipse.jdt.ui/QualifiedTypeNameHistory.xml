@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="com.java.lib.dao.LibraryDao"/>
+    <fullyQualifiedTypeName name="com.java.lib.dao.LibraryDaoImpl"/>
+    <fullyQualifiedTypeName name="com.java.lib.util.ConnectionHelper"/>
+    <fullyQualifiedTypeName name="java.sql.Timestamp"/>
+    <fullyQualifiedTypeName name="java.sql.Date"/>
+    <fullyQualifiedTypeName name="java.sql.Connection"/>
+    <fullyQualifiedTypeName name="com.java.lms.util.ConnectionHelper"/>
+    <fullyQualifiedTypeName name="com.java.lms.model.LeaveType"/>
+</qualifiedTypeNameHistroy>

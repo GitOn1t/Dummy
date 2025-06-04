@@ -1,0 +1,19 @@
+package com.java.lib.main;
+
+import java.util.List;
+
+import com.java.lib.dao.LibraryDao;
+import com.java.lib.dao.LibraryDaoImpl;
+import com.java.lib.model.Books;
+
+public class Main {
+  public static void main(String[] args) {
+	
+	  
+	  LibraryDao d=new LibraryDaoImpl();
+	  
+	  List<Books> searchBooks= d.searchBooks("id", "2");
+	  
+	  
+}
+}

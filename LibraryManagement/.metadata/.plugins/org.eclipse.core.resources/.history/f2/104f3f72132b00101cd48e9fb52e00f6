@@ -1,0 +1,10 @@
+package Library.Management.util;
+
+public class EncryptPassword {
+
+	public static String getCode(String passWord) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

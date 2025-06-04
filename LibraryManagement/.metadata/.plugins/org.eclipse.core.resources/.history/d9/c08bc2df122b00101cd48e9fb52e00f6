@@ -1,0 +1,12 @@
+package com.java.lib.model;
+
+import java.sql.SQLException;
+import Library.Management.model.LibUsers;
+
+public interface Librarydao {
+    String createUser(LibUsers libUsers) throws ClassNotFoundException, SQLException;
+    boolean login(LibUsers libUsers) throws ClassNotFoundException, SQLException;
+}
+
+
+

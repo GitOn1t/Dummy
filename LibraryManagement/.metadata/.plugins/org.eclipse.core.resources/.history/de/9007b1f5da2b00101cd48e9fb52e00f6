@@ -1,0 +1,5 @@
+package com.java.lib.model;
+
+public class TransReturn {
+
+}

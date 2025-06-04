@@ -1,0 +1,43 @@
+package Library.Management.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import Library.Management.model.LibUsers;
+import Library.Management.util.ConnectionHelper;
+import Library.Management.util.EncryptPassword;
+
+public class LibraryDaoImpl implements Librarydao {
+
+    @Override
+    public String createUser(LibUsers libUsers) throws ClassNotFoundException, SQLException {
+        String encr = EncryptPassword.getCode(libUsers.getPassWord());
+        try (Connection connection = ConnectionHelper.getConnection();
+             PreparedStatement psmt = connection.prepareStatement(
+                "INSERT INTO LibUsers(UserName, Password) VALUES (?, ?)")) {
+            psmt.setString(1, libUsers.getUserName());
+            psmt.setString(2, encr);
+            psmt.executeUpdate();
+            return "User Account Created Successfully...";
+        }
+    }
+
+    @Override
+    public boolean login(LibUsers libUsers) throws ClassNotFoundException, SQLException {
+        String encr = EncryptPassword.getCode(libUsers.getPassWord());
+        try (Connection connection = ConnectionHelper.getConnection();
+             PreparedStatement psmt = connection.prepareStatement(
+                 "SELECT COUNT(*) AS cnt FROM LibUsers WHERE UserName = ? AND Password = ?")) {
+            psmt.setString(1, libUsers.getUserName());
+            psmt.setString(2, encr);
+            try (ResultSet rs = psmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("cnt") > 0;
+                }
+            }
+        }
+        return false;
+    }
+}

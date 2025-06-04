@@ -1,0 +1,14 @@
+LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/arch=x86_64
+LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/name=Local
+LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/os=win32
+LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.wst.server,Tomcat\ v8.5\ Server\ at\ localhost/name=Tomcat v8.5 Server at localhost
+configDescList=org.eclipse.launchbar.core.descriptorType.default\:AppletServer,org.jboss.tools.wtp.server.launchbar.ModuleDescriptorType\:/Search.jsp,org.jboss.tools.wtp.server.launchbar.ModuleDescriptorType\:/SearchPrint.jsp,org.jboss.tools.wtp.server.launchbar.ModuleDescriptorType\:/Issue.jsp,org.jboss.tools.wtp.server.launchbar.ModuleDescriptorType\:/Menu.jsp,org.jboss.tools.wtp.server.launchbar.ModuleDescriptorType\:/AddUser.jsp,org.eclipse.launchbar.core.descriptorType.default\:Main,org.jboss.tools.wtp.server.launchbar.ModuleDescriptorType\:/AddAdmin.jsp,org.jboss.tools.wtp.server.launchbar.ModuleDescriptorType\:/AdminLogin.jsp,org.jboss.tools.wtp.server.launchbar.ModuleDescriptorType\:/login.jsp,org.jboss.tools.wtp.server.launchbar.ModuleDescriptorType\:/AdminMenu.jsp,org.jboss.tools.wtp.server.launchbar.ModuleDescriptorType\:/DashBoard.jsp,org.jboss.tools.wtp.server.launchbar.ModuleDescriptorType\:/LeaveHistory.jsp,org.jboss.tools.wtp.server.launchbar.ModuleDescriptorType\:/EmployShow.jsp,org.jboss.tools.wtp.server.launchbar.ModuleDescriptorType\:LibraryExample,org.jboss.tools.wtp.server.launchbar.ModuleDescriptorType\:LmsExample,org.jboss.tools.wtp.server.launchbar.ModuleDescriptorType\:Management,org.eclipse.launchbar.core.descriptorType.default\:Tomcat v8.5 Server at localhost
+eclipse.preferences.version=1
+org.eclipse.launchbar.core.descriptorType.default\:AppletServer/activeLaunchMode=run
+org.eclipse.launchbar.core.descriptorType.default\:AppletServer/activeLaunchTarget=org.eclipse.launchbar.core.launchTargetType.local\:Local
+org.eclipse.launchbar.core.descriptorType.default\:Main/activeLaunchTarget=org.eclipse.launchbar.core.launchTargetType.local\:Local
+org.eclipse.launchbar.core.descriptorType.default\:Tomcat\ v8.5\ Server\ at\ localhost/activeLaunchTarget=org.eclipse.launchbar.core.launchTargetType.local\:Local
+org.jboss.tools.wtp.server.launchbar.ModuleDescriptorType\:/AddUser.jsp/activeLaunchTarget=org.eclipse.launchbar.core.launchTargetType.wst.server\:Tomcat v8.5 Server at localhost
+org.jboss.tools.wtp.server.launchbar.ModuleDescriptorType\:LibraryExample/activeLaunchTarget=org.eclipse.launchbar.core.launchTargetType.wst.server\:Tomcat v8.5 Server at localhost
+org.jboss.tools.wtp.server.launchbar.ModuleDescriptorType\:Management/activeLaunchMode=run
+org.jboss.tools.wtp.server.launchbar.ModuleDescriptorType\:Management/activeLaunchTarget=org.eclipse.launchbar.core.launchTargetType.wst.server\:Tomcat v8.5 Server at localhost

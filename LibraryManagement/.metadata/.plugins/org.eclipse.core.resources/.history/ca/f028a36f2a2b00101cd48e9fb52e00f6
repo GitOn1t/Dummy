@@ -1,0 +1,37 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+<br/>
+<%
+  String user=(String)session.getAttribute("user");
+  out.println("Welcome <b>" +user+"</b>");
+  
+%>
+<br/><br/>
+<div class="logout">
+<input type="button" name="logout" value="Logout" onclick="window.location='index.html'">
+</div>
+<div class="aone" style =" background-color:#ff11ff ">
+<div class= "atwo" style =" background-color:#ffff00 ">
+<a href="AccountDetails.jsp">Account Details</a> 
+</div>
+<div class="atwo"style="background-color:#ffff00;margin-top:-30px;margin-left:170px">
+<a href="Search.jsp">Search / Issue</a>
+</div>
+<div class="atwo"style="background-color:#ffff00;margin-top:-30px;margin-left:330px">
+<a href="Return.jsp">Return</a>
+</div>
+<div class="atwo"style="background-color:#ffff00;margin-top:-30px;margin-left:490px">
+<a href="History.jsp">History</a>
+</div>
+</div>
+
+</body>
+</html>

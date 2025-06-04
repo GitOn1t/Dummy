@@ -1,0 +1,5 @@
+package com.hexaware.cars.exception;
+
+public class IncidentNumberNotFoundException {
+
+}

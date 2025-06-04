@@ -1,0 +1,12 @@
+package com.java.lib.model;
+
+import lombok.Data;
+
+@Data
+
+@da
+public class AdminLogin {
+
+	private String username;
+	private String passcode;
+}

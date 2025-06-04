@@ -1,0 +1,48 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Create Account</title>
+<script>
+  function validatePasswords() {
+    const password = document.getElementById('passWord').value;
+    const confirmPassword = document.getElementById('retypePassCode').value;
+    if (password !== confirmPassword) {
+      alert('Passwords do not match!');
+      return false;
+    }
+    return true;
+  }
+</script>
+</head>
+<body>
+  <form method="post" action="AddUser.jsp" onsubmit="return validatePasswords()">
+    User Name:
+    <input type="text" name="userName" required /> <br/><br/>
+    Password:
+    <input type="password" name="passWord" id="passWord" required /> <br/><br/>
+    Re-Type Password:
+    <input type="password" name="retypePassCode" id="retypePassCode" required /> <br/><br/>
+    <input type="submit" value="Create Account" />
+  </form>
+  <%
+    if (request.getParameter("userName") != null && request.getParameter("passWord") != null) {
+      String pwd = request.getParameter("passWord");
+      String reType = request.getParameter("retypePassCode");
+      if (pwd.equals(reType)) {
+  %>
+  <jsp:useBean id="libUsers" class="com.java.lib.model.LibUsers" />
+  <jsp:useBean id="libDao" class="com.java.lib.dao.LibraryDaoImpl" />
+  <jsp:setProperty property="*" name="libUsers"/>
+  <%= libDao.createUser(libUsers) %>
+  <%
+      } else {
+  %>
+  <p style="color: red;">Passwords do not match. Please try again.</p>
+  <%
+      }
+    }
+  %>
+</body>
+</html>

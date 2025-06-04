@@ -1,0 +1,79 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8" import="java.util.*, com.java.lms.dao.*, com.java.lms.model.*" %>
+
+<%
+    String empIdStr = request.getParameter("empId");  // Get the empId from the request
+    if (empIdStr != null) {
+        try {
+            int empId = Integer.parseInt(empIdStr);  // Try to parse empId into an integer
+            LeaveDetailsDAO dao = new LeaveDAOImpl();
+            List<LeaveDetails> leaveList = dao.showLeaveHistory(empId);
+%>
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Leave History</title>
+<style>
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+    th, td {
+        border: 1px solid #ccc;
+        padding: 8px;
+        text-align: left;
+    }
+    th {
+        background-color: #f2f2f2;
+    }
+</style>
+</head>
+<body>
+
+<h2>Leave History for Employee ID: <%= empId %></h2>
+
+<table>
+    <tr>
+        <th>Leave ID</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Leave Type</th>
+        <th>Leave Status</th>
+        <th>Reason</th>
+        <th>Manager Comments</th>
+    </tr>
+    <%
+        for (LeaveDetails leave : leaveList) {
+    %>
+    <tr>
+        <td><%= leave.getLeaveId() %></td>
+        <td><%= leave.getLeaveStartDate() %></td>
+        <td><%= leave.getLeaveEndDate() %></td>
+        <td><%= leave.getLeaveType() %></td>
+        <td><%= leave.getLeaveStatus() %></td>
+        <td><%= leave.getLeaveReason() %></td>
+        <td><%= leave.getManagerComments() != null ? leave.getManagerComments() : "-" %></td>
+    </tr>
+    <%
+        }
+    %>
+</table>
+
+</body>
+</html>
+
+<%
+        } catch (NumberFormatException e) {
+%>
+    <p style="color: red;">Invalid employee ID format. Please provide a valid integer for empId.</p>
+<%
+        }
+    } else {
+%>
+    <p style="color: red;">Employee ID is missing. Please provide a valid empId in the URL like this: <br/>
+    <code>?empId=1001</code></p>
+<%
+    }
+%>

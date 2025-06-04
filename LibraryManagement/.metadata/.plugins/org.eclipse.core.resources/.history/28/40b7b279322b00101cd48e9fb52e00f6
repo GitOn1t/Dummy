@@ -1,0 +1,32 @@
+package com.java.lib.main;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import com.java.lib.dao.LibraryDao;
+import com.java.lib.dao.LibraryDaoImpl;
+import com.java.lib.model.Books;
+import com.java.lib.util.ConnectionHelper;
+
+public class Main {
+  public static void main(String[] args) {
+	
+	  
+	  LibraryDao d=new LibraryDaoImpl();
+	  
+	  ConnectionHelper con=
+	  
+	  try {
+		List<Books> searchBooks= d.searchBooks("id", "2");
+		
+		for(Books book : searchBooks) {
+			System.out.println(book);
+		}
+	} catch (ClassNotFoundException | SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	  
+	  
+}
+}

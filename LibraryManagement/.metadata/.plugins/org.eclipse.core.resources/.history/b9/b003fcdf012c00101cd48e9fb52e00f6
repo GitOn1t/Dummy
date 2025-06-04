@@ -1,0 +1,83 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8" import="java.util.*, com.java.lms.dao.*, com.java.lms.model.*" %>
+
+<%
+    // Get the empId from the request (e.g., from URL query parameters or session)
+    String empIdStr = request.getParameter("empId");  
+    LeaveDetailsDAO dao = new LeaveDAOImpl();  // Create an instance of the DAO
+    List<LeaveDetails> leaveList = new ArrayList<>();
+
+    // Check if empId is provided and valid
+    if (empIdStr != null) {
+        try {
+            int empId = Integer.parseInt(empIdStr);  // Parse the empId
+            leaveList = dao.showLeaveHistory(empId);  // Fetch leave history from the database
+        } catch (NumberFormatException e) {
+%>
+            <p style="color: red;">Invalid Employee ID. Please provide a valid integer for empId.</p>
+<%
+        }
+    } else {
+%>
+        <p style="color: red;">Employee ID is missing. Please provide a valid empId in the URL like this: <br/>
+        <code>?empId=1001</code></p>
+<%
+    }
+%>
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Leave History</title>
+<style>
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+    th, td {
+        border: 1px solid #ccc;
+        padding: 8px;
+        text-align: left;
+    }
+    th {
+        background-color: #f2f2f2;
+    }
+</style>
+</head>
+<body>
+
+<% if (!leaveList.isEmpty()) { %> 
+    <h2>Leave History for Employee ID: <%= empIdStr %></h2>
+    <table>
+        <tr>
+            <th>Leave ID</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Leave Type</th>
+            <th>Leave Status</th>
+            <th>Leave Reason</th>
+            <th>Manager Comments</th>
+        </tr>
+        <% 
+            for (LeaveDetails leave : leaveList) {
+        %>
+        <tr>
+            <td><%= leave.getLeaveId() %></td>
+            <td><%= leave.getLeaveStartDate() %></td>
+            <td><%= leave.getLeaveEndDate() %></td>
+            <td><%= leave.getLeaveType() %></td>
+            <td><%= leave.getLeaveStatus() %></td>
+            <td><%= leave.getLeaveReason() %></td>
+            <td><%= leave.getManagerComments() != null ? leave.getManagerComments() : "-" %></td>
+        </tr>
+        <% 
+            }
+        %>
+    </table>
+<% } else { %>
+    <p>No leave history found for this Employee ID.</p>
+<% } %>
+
+</body>
+</html>

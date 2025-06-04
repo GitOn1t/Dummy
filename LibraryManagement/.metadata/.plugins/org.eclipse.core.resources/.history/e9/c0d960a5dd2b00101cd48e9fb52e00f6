@@ -1,0 +1,8 @@
+package com.java.lib.model;
+
+@Data
+public class AdminLogin {
+
+	private String username;
+	private String passcode;
+}

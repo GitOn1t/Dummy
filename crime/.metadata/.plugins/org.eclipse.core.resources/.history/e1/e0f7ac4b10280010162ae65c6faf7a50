@@ -1,0 +1,5 @@
+package com.hexaware.cars.dao;
+
+public class ICrimeAnalysisService {
+
+}
